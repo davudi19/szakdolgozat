@@ -1,0 +1,57 @@
+#first-card{
+    max-width: 18rem; 
+    float: left;
+}
+
+#second-card{
+    float: right;
+    max-width: 18rem;
+}
+
+#select{
+    float:left;
+    width: 20%;
+    margin: 0;
+}
+
+#shop-text{
+    position:absolute; 
+    right: 20px;
+    cursor: auto;
+}
+
+
+@media (max-width: 767.5px){
+    #second-card{
+        float: left;
+        margin-top: 50px;
+    }
+
+}
+@media (max-width: 994px){
+    #select{
+        margin-left: -285px;
+        margin-top: 910px;
+        float: left;
+    }
+}
+
+/*@media (max-width: 767.5px){
+    #select{
+        margin-top: 15px;
+        position: sticky;
+    }
+}*/
+
+#elutasit{
+    float: right;
+}
+
+@media (max-width: 276px){
+    #elutasit{
+        float: center;
+    }
+    #elfogad{
+        float: center;
+    }
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="hun">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bejelentkezés</title>
+    <!--Icon-->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <!--CSS-->
+    <link rel="stylesheet" href="../css/style.css">
+    <!--Script-->
+    <script defer src="../spa/js/login.js"></script>
+</head>
+<body class="login">
+    <div class="container">
+        <div class="forms">
+            <div class="form login">
+                <span class="title">Bejelentkezés</span>
+
+                <form action="/" class="loginForm">
+                    <div class="error-message-all"></div>
+                    <div class="input-group">
+                        <span class="error-message"></span>
+                        <input type="email" id="email" class="input" placeholder="Kérem az email címet..." required value="admin@foksz.dvpc.hu">
+                        <i class="uil uil-envelope icon"></i>
+                    </div>
+                    <div class="input-group">
+                        <span class="error-message"></span>
+                        <input type="password" class="password" id="password" placeholder="Kérem a jelszavad..." required value="Admin123">
+                        <i class="uil uil-lock icon"></i>
+                    </div>
+
+                    <div class="input-group">
+                        <input class="button" type="submit" value="Bejelentkezés">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
