@@ -50,6 +50,12 @@ const urlRoutes = {
         template: "../spa/templates/modositas.html",
         title: "Termékek módosítása | " + urlPageTitle,
         description: "Termékek módosítása oldala"
+    },
+    "/shop": {
+        template: "../spa/templates/shop.html",
+        title: "Shop | " + urlPageTitle,
+        description: "Shop-okkal kapcsolatos tevékenységek oldala",
+        script: "shopLoad()"
     }
 }
 
@@ -64,8 +70,8 @@ const urlLocationHandler = async() => {
     if(location.length == 0){
         location = "/";
     }
-    const route = urlRoutes[location] || urlRoutes[404];
-    //const route = urlRoutes["/keresek"] || urlRoutes[404];
+    //const route = urlRoutes[location] || urlRoutes[404];
+    const route = urlRoutes["/shop"] || urlRoutes[404];
     const html = await fetch(route.template).then((response) => response.text());
     document.getElementById("content").innerHTML = html;
     document.title = route.title;
