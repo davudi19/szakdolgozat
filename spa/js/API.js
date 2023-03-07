@@ -107,9 +107,6 @@ async function refreshToken() {
     localStorage.setItem('user',JSON.stringify(data));
   });
 }
-
-
-
 function testJSON(text) {
     if (typeof text !== "string") {
         return false;
