@@ -1,0 +1,14 @@
+#shopHeader{
+    font-size: 35px;
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#shopPage{
+    margin-top: 50px;
+}
+
+.shopElement{
+    font-size: 20px;
+    font-family: 'Times New Roman', Times, serif;
+}

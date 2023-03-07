@@ -200,15 +200,83 @@ async function currentP(id, i){
 
 async function shopLoad (){
     
-    //------------------------------------------------
     var shopok = await getData('https://api.foksz.dvpc.hu/api/shop')
     .then(async response => {
         return await response.json();
     });
     console.log(shopok);
-    console.log("Első shop elemnek a tesconak kell lennie, ehhez képest az eredmény: " + shopok[0].name);
-    //var shopHtml = getShop(shopDatas);
-    //document.getElementById("shopPage").innerHTML = shopHtml;
+    var shopHtml = getShop(shopok);
+    document.getElementById("shopPage").innerHTML = shopHtml;
+}
+
+function getShop(shopok){
+    var html = "";
+    console.log("Ez most a getShop teszt, Spart várok : " + shopok[1].name);
+    console.log("Ennyi shopom van: " + shopok.length);
+    html += '<table class="table">'+
+            '<thead>'+
+            '<tr>'+
+            '<th scope="col" class="bg-primary" id="shopHeader">Bolt id</th>'+
+            '<th scope="col" class="bg-primary" id="shopHeader">Bolt név</th>'+
+            '</tr>'+
+            '</thead>';
+    html += '<tbody>';
+    for (var i=0;i<shopok.length;i++){
+        html += '<tr class="shopElement">'+
+                '<td >'+ shopok[i].id +'</td>'+
+                '<td >'+ shopok[i].name + '</td>'+
+                '</tr>';
+    }
+    html += '</tbody>' 
+         +'</table>';
+
+    html+='<div class="felkuldShop">'+
+     '<input type="text" class="felkuldName" id="felkuldName">'+
+     '<button type="submit" onclick="felkuldShop()">Küldés</button>'+
+     '</div>';
+
+     html+='<div class="torolShop">'+
+     '<input type="text" class="torolID" id="torolID">'+
+     '<button type="submit" onclick="torolShop()">Törlés</button>'+
+     '</div>';
+
+    return html;
+}
+
+async function felkuldShop(){
+    var felkuldNev = document.querySelector('#felkuldName').value;
+    var fentVan = 0;
+    await getData('https://api.foksz.dvpc.hu/api/shop')
+    .then(async response => {
+        var list = await response.json();
+        console.log('Lista: ' + list.length);
+        for(var i=0;i<list.length;i++){
+            if(felkuldNev.toLowerCase() === list[i].name.toLowerCase()){
+                fentVan = 1;
+                return;
+            }else{
+                fentVan = 2;
+            }
+            return;
+        }
+
+    });
+    if(fentVan == 1){
+        alert("Fent van");
+    }else if(fentVan == 2){
+        await postData2('https://api.foksz.dvpc.hu/api/shop/'+felkuldNev);
+        alert("Felküldtem");
+        shopLoad();
+    }
+
+
+}
+
+async function torolShop(){
+    var torolID = document.querySelector('#torolID').value;
+    await deleteData('https://api.foksz.dvpc.hu/api/shop/'+torolID);
+    alert("Sikeres törlés!");
+    shopLoad();
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
