@@ -223,21 +223,22 @@ function getShop(shopok){
     html += '<tbody>';
     for (var i=0;i<shopok.length;i++){
         html += '<tr class="shopElement">'+
-                '<td >'+ shopok[i].id +'</td>'+
-                '<td >'+ shopok[i].name + '</td>'+
+                '<td>'+ shopok[i].id +'</td>'+
+                '<td><input type="button" class="buttonName" value="'+ shopok[i].name + '" onclick="shopTermekLista()"></td>'+
                 '</tr>';
     }
     html += '</tbody>' 
          +'</table>';
 
+   
     html+='<div class="felkuldShop">'+
      '<input type="text" class="felkuldName" id="felkuldName">'+
-     '<button type="submit" onclick="felkuldShop()">Küldés</button>'+
+     '<button type="submit" class="buttonFelkuld" onclick="felkuldShop()">Küldés</button>'+
      '</div>';
 
      html+='<div class="torolShop">'+
      '<input type="text" class="torolID" id="torolID">'+
-     '<button type="submit" onclick="torolShop()">Törlés</button>'+
+     '<button type="submit" class="buttonTorol" onclick="torolShop()">Törlés</button>'+
      '</div>';
 
     return html;
@@ -246,6 +247,7 @@ function getShop(shopok){
 async function felkuldShop(){
     var felkuldNev = document.querySelector('#felkuldName').value;
     var fentVan = 0;
+    //Összehasonlítást befejezni
     await getData('https://api.foksz.dvpc.hu/api/shop')
     .then(async response => {
         var list = await response.json();
@@ -275,8 +277,13 @@ async function felkuldShop(){
 async function torolShop(){
     var torolID = document.querySelector('#torolID').value;
     await deleteData('https://api.foksz.dvpc.hu/api/shop/'+torolID);
+    //lekezelni hogy mi van ha nem történik semmi (status code)
     alert("Sikeres törlés!");
     shopLoad();
+}
+
+function shopTermekLista(){
+    alert("Ide értél szép testvérem.");
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
