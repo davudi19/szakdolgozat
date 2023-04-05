@@ -224,7 +224,7 @@ function getShop(shopok){
     for (var i=0;i<shopok.length;i++){
         html += '<tr class="shopElement">'+
                 '<td>'+ shopok[i].id +'</td>'+
-                '<td><input type="button" class="buttonName" value="'+ shopok[i].name + '" onclick="shopTermekLista()"></td>'+
+                '<td><input type="button" class="buttonName" value="'+ shopok[i].name + '" onclick="shopTermekLista(\''+shopok[i].id+'\')"></td>'+
                 '</tr>';
     }
     html += '</tbody>' 
@@ -232,19 +232,21 @@ function getShop(shopok){
 
    
     html+='<div class="felkuldShop">'+
-     '<input type="text" class="felkuldName" id="felkuldName">'+
+     '<h2 id="boltFejlec">Bolt hozzáadása</h2>'+
+     '<input type="text" class="felkuldName" id="felkuldName" placeholder="Ide írd a bolt nevét a felvételhez...">'+
      '<button type="submit" class="buttonFelkuld" onclick="felkuldShop()">Küldés</button>'+
      '</div>';
 
      html+='<div class="torolShop">'+
-     '<input type="text" class="torolID" id="torolID">'+
+     '<h2 id="boltFejlec">Bolt törlés</h2>'+
+     '<input type="text" class="torolID" id="torolID" placeholder="Ide írd a bolt nevét a törléshez...">'+
      '<button type="submit" class="buttonTorol" onclick="torolShop()">Törlés</button>'+
      '</div>';
 
     return html;
 }
 
-async function felkuldShop(){
+async function felkuldShop(){//NEM MÜKŐDIK -> nem ellenőrzi, hogy fent van e
     var felkuldNev = document.querySelector('#felkuldName').value;
     var fentVan = 0;
     //Összehasonlítást befejezni
@@ -282,10 +284,110 @@ async function torolShop(){
     shopLoad();
 }
 
-function shopTermekLista(){
-    alert("Ide értél szép testvérem.");
+async function shopTermekLista(id){
+    alert("Ide értél szép testvérem. ID: " + id);
+
+    var adottShopList = await getData('https://api.foksz.dvpc.hu/api/product/id/'+id+'')
+    .then(async response => {
+        return await response.json();
+    });
+    console.log(adottShopList);
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
 //SHOP - VÉGE ----------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------
+//TERMÉK HOZZÁADÁS - KEZDET ----------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------
+async function productAddLoad() {
+    var addProdPage = "";
+    addProdPage += 
+    '<input type="text" class="addProdText" id="termekNev" placeholder="Ide írd a termék nevét...">'+
+    '<input type="number" class="addProdText" id="barcode" placeholder="Ide írd a vonalkódot...">';
+
+    //CATEGORY----------------------------------------------------------------------
+    var categoryList = await getData('https://api.foksz.dvpc.hu/api/product/category')
+    .then(async response => {
+        return await response.json();
+    });
+    console.log(categoryList);
+    
+    addProdPage += '<select id="categorySelect" onchange="ProdFel()">'+
+    '<option value="0">Válasszon...</option>';
+    for(var i=0;i<categoryList.length;i++){
+        addProdPage += '<option value="'+categoryList[i].id+'">'+ categoryList[i].name +'</option>';
+    }
+    addProdPage += '</select> <br>';
+
+    //PACKTYPE----------------------------------------------------------------------
+    var packTypeList = await getData('https://api.foksz.dvpc.hu/api/product/packtype')
+    .then(async response => {
+        return await response.json();
+    });
+    console.log(packTypeList);
+
+    addProdPage += '<select id="packtypeSelect" onchange="ProdFel()">'+
+    '<option value="0">Válasszon...</option>';
+    for(var i=0;i<packTypeList.length;i++){
+        addProdPage += '<option value="'+packTypeList[i].id+'">'+ packTypeList[i].name +'</option>';
+    }
+    addProdPage += '</select> <br>';
+
+    //SHOP----------------------------------------------------------------------
+    var shopList = await getData('https://api.foksz.dvpc.hu/api/shop')
+    .then(async response => {
+        return await response.json();
+    });
+    console.log(shopList);
+
+    addProdPage += '<select id="shopSelect" onchange="ProdFel()">'+
+    '<option value="0">Válasszon...</option>';
+    for(var i=0;i<shopList.length;i++){
+        addProdPage += '<option value="'+shopList[i].id+'">'+ shopList[i].name +'</option>';
+    }
+    addProdPage += '</select> <br>';
+
+    addProdPage += 
+    '<input type="number" class="addProdText" id="ar" placeholder="Ide írd a termék árát...">'+
+    '<input type="number" class="addProdText" id="csomag" placeholder="Ide írd az egy csomag számát...">';
+
+
+
+    addProdPage += '<button type="button" onclick="ProdFel()">Felküld</button>';
+    document.getElementById("prodAddPage").innerHTML = addProdPage;
+}
+
+function ProdFel(){
+    var felkuldTermek = {
+        name: document.getElementById("termekNev").value,
+        barcode: document.getElementById("barcode").value,
+        image: "",
+        productCategoryId: document.getElementById("categorySelect").value,
+        productPackTypeId: document.getElementById("packtypeSelect").value,
+        shopId: document.getElementById("shopSelect").value,
+        fullPackPrice: document.getElementById("ar").value,
+        packSize: document.getElementById("csomag").value
+    };
+    console.log(kepToByte.toString());
+    console.log(felkuldTermek);
+    if(felkuldTermek.fullPackPrice != 0){
+        elkuldProd(felkuldTermek);
+    }
+
+}
+
+async function elkuldProd(felkuldTermek){
+    
+    await postData('https://api.foksz.dvpc.hu/api/product' , felkuldTermek);
+    alert("Felküldted a terméket.");
+    productAddLoad();
+}
+
+
+
+
+
+//------------------------------------------------------------------------------------------------------------------------------------------------
+//TERMÉK HOZZÁADÁS - VÉGE ----------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------------

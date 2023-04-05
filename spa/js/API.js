@@ -20,6 +20,7 @@ async function postData(url = '', data = {}) {
     e++;
     refreshToken();
   }else{
+    console.log(response.message);
     return response.json(); // parses JSON response into native JavaScript objects
   }
 }

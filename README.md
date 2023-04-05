@@ -12,3 +12,5 @@ Ha valamelyik boltra rá kattintunk, akkor annak a boltnak a termékeit listázz
 Linkek:
 Simple text(shop felküld, töröl textbox): https://www.youtube.com/watch?v=omJfspwjnZk
 Küldés és Törlés gombok a hop-on: https://www.youtube.com/watch?v=Pcf4F5xa1xs&t=180s
+Login css: https://www.youtube.com/watch?v=VP0DS6iXbXY&t=120s
+SPA: https://www.youtube.com/watch?v=JmSb1VFoP7w&t=958s

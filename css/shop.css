@@ -102,3 +102,8 @@
     transform: scale(1.1);
 }
 
+#boltFejlec{
+    margin-top: 50px;
+    text-decoration: underline;
+}
+

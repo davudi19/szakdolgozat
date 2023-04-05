@@ -28,7 +28,8 @@ const urlRoutes = {
     "/hozzaadas": {
         template: "../spa/templates/hozzaadas.html",
         title: "Hozzáadás | " + urlPageTitle,
-        description: "Termékek hozzáadása oldala"
+        description: "Termékek hozzáadása oldala",
+        script: "productAddLoad()"
     },
     "/keresek": {
         template: "../spa/templates/keresek.html",
@@ -71,7 +72,7 @@ const urlLocationHandler = async() => {
         location = "/";
     }
     //const route = urlRoutes[location] || urlRoutes[404];
-    const route = urlRoutes["/shop"] || urlRoutes[404];
+    const route = urlRoutes["/hozzaadas"] || urlRoutes[404];
     const html = await fetch(route.template).then((response) => response.text());
     document.getElementById("content").innerHTML = html;
     document.title = route.title;
