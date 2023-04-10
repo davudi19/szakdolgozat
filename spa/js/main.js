@@ -211,8 +211,6 @@ async function shopLoad (){
 
 function getShop(shopok){
     var html = "";
-    console.log("Ez most a getShop teszt, Spart várok : " + shopok[1].name);
-    console.log("Ennyi shopom van: " + shopok.length);
     html += '<table class="table">'+
             '<thead>'+
             '<tr>'+
@@ -246,59 +244,128 @@ function getShop(shopok){
     return html;
 }
 
-async function felkuldShop(){//NEM MÜKŐDIK -> nem ellenőrzi, hogy fent van e
-    var felkuldNev = document.querySelector('#felkuldName').value;
-    var fentVan = 0;
-    //Összehasonlítást befejezni
+async function felkuldShop(){
+    
+    var felkuldNev = document.querySelector("#felkuldName").value;
+    console.log(felkuldNev);
     await getData('https://api.foksz.dvpc.hu/api/shop')
     .then(async response => {
         var list = await response.json();
-        console.log('Lista: ' + list.length);
+        console.log(list);
+        var fentVan = 0;
+        var str = felkuldNev.toLowerCase();
         for(var i=0;i<list.length;i++){
-            if(felkuldNev.toLowerCase() === list[i].name.toLowerCase()){
-                fentVan = 1;
-                return;
-            }else{
-                fentVan = 2;
+            var result = str.localeCompare(list[i].name.toLowerCase());
+            console.log(result);
+            if(result == 0){
+                fentVan++;
             }
-            return;
+        }
+        if(fentVan != 0){     
+            alert("Ez a bolt már megtalálható az adatbázisban!");
+        }else{
+            await postData2('https://api.foksz.dvpc.hu/api/shop/'+felkuldNev);
+            alert("A bolt sikeresen bekerült az adatbázisba.");
+            shopLoad();
         }
 
     });
-    if(fentVan == 1){
-        alert("Fent van");
-    }else if(fentVan == 2){
-        await postData2('https://api.foksz.dvpc.hu/api/shop/'+felkuldNev);
-        alert("Felküldtem");
-        shopLoad();
-    }
-
-
 }
 
 async function torolShop(){
     var torolID = document.querySelector('#torolID').value;
     await deleteData('https://api.foksz.dvpc.hu/api/shop/'+torolID);
-    //lekezelni hogy mi van ha nem történik semmi (status code)
     alert("Sikeres törlés!");
     shopLoad();
 }
 
 async function shopTermekLista(id){
-    alert("Ide értél szép testvérem. ID: " + id);
 
-    var adottShopList = await getData('https://api.foksz.dvpc.hu/api/product/id/'+id+'')
+    var list = await getData('https://api.foksz.dvpc.hu/api/product?ShopId='+id)
     .then(async response => {
         return await response.json();
     });
+    var adottShopList = list.items;
     console.log(adottShopList);
+    console.log(id);
+
+    var html = productListHTML(adottShopList);
+    document.getElementById("listProduct").innerHTML = html;
+}
+
+function productListHTML(adottShopList){
+    var html = "";
+    console.log(adottShopList);
+    html += '<div id="boltNev">' +
+    '<h1>'+adottShopList[0].shopName+'-ban/ben lévő termékek: </h1> <br>'+
+    '</div>';
+    for(var i=0;i<adottShopList.length;i++){
+        html += '<div class="card">'+
+        '<div class="card-header" id="'+adottShopList[i].id+'">'+
+        '<h5 class="mb-0">'+
+        '<button class="btn btn-link" data-toggle="collapse" data-target="#collapse'+i+'" aria-expanded="true" aria-controls="collapse'+i+'" onclick="clickedList(\''+adottShopList[i].id+'\',\''+i+'\')">'+
+        adottShopList[i].name+
+        '</button>'+
+        '<p class="btn" id="shop-text" >'+
+        adottShopList[i].shopName+
+        '</p></h5></div>'
+        +
+        '<div id="collapse'+i+'" class="collapse" aria-labelledby="'+adottShopList[i].id+'" data-parent="#accordion">'+
+        '<div class="card" id="first-card">';
+        html += '<div id="clickedListaPlace'+i+'">';
+        html += '</div>';
+        html += '<div id="gombhely"></div>';
+        html += '</div>';
+
+        html +=
+        '</div>'+
+        '</div>'+
+        '</div>'+
+        '<br>';
+    }
+
+    return html;
+}
+
+async function clickedList(id, i){
+    console.log("clickedList id: " + id);
+    
+    console.log("i: " + i);
+    await getData('https://api.foksz.dvpc.hu/api/admin/product/id/'+id+'')
+    .then(async response => {
+        var list = await response.json();
+        console.log(list);
+
+        var bovitett = "";
+        bovitett += 
+            '<img src="'+getImage(list.image)+'" class="card-img-top" alt="">'+
+            '<div class="card-body">'+
+            '<h5 class="card-title">'+list.name+'</h5>'+
+            '<p class="card-text">Ezt a terméket szeretnék módosítani.</p>'+
+            '</div>'+
+            '<ul class="list-group list-group-flush">'+
+            '<li class="list-group-item">Ára: <br>'+list.fullPackPrice+' HUF</li>'+
+            '<li class="list-group-item">Kategória:<br> '+list.productCategoryName+'</li>'+
+            '<li class="list-group-item">Árúház:<br> '+list.shopName+'</li>'+
+            '<li class="list-group-item">Csomagolás típusa:<br> '+list.productPackTypeName+'</li>'+
+            '<li class="list-group-item">Hány darabra vonatkozik? :<br> '+list.packSize+'</li>'+
+            '<li class="list-group-item">Létrehozó:<br> '+list.createdUserName+'</li>'+
+            '<li class="list-group-item">Vonalkód:<br> '+list.barcode+'</li>'+
+            '<li class="list-group-item">Létrehozás dátuma:<br> '+list.createdDate+'</li>'+
+            '</ul>';
+
+        document.getElementById("clickedListaPlace"+i).innerHTML = bovitett;
+        //console.log(list.name);
+    });
+
+
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
 //SHOP - VÉGE ----------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------------
-//TERMÉK HOZZÁADÁS - KEZDET ----------------------------------------------------------------------------------------------------------------------------------
+//TERMÉK FELTÖLTÉS - KEZDET ----------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------------
 async function productAddLoad() {
     var addProdPage = "";
@@ -356,6 +423,9 @@ async function productAddLoad() {
 
     addProdPage += '<button type="button" onclick="ProdFel()">Felküld</button>';
     document.getElementById("prodAddPage").innerHTML = addProdPage;
+
+
+
 }
 
 function ProdFel(){
@@ -369,7 +439,6 @@ function ProdFel(){
         fullPackPrice: document.getElementById("ar").value,
         packSize: document.getElementById("csomag").value
     };
-    console.log(kepToByte.toString());
     console.log(felkuldTermek);
     if(felkuldTermek.fullPackPrice != 0){
         elkuldProd(felkuldTermek);
@@ -378,16 +447,186 @@ function ProdFel(){
 }
 
 async function elkuldProd(felkuldTermek){
-    
     await postData('https://api.foksz.dvpc.hu/api/product' , felkuldTermek);
     alert("Felküldted a terméket.");
     productAddLoad();
 }
 
 
+//------------------------------------------------------------------------------------------------------------------------------------------------
+//TERMÉK FELTÖLTÉS - VÉGE ----------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------
+//TERMÉKKATEGÓRIA - KEZDET ----------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------
 
+async function prodCategoryLoad(){
+    var kategoriak = await getData('https://api.foksz.dvpc.hu/api/product/category')
+    .then(async response => {
+        return await response.json();
+    });
+    console.log(kategoriak);
+    var categoryHtml = getCategoryHTML(kategoriak);
+    document.getElementById("prodCategoryPage").innerHTML = categoryHtml;
+}
+
+function getCategoryHTML(kategoriak){
+    var html = "";
+        html += '<table class="table">'+
+            '<thead>'+
+            '<tr>'+
+            '<th scope="col" class="bg-primary" id="categoryHeader">Kategória id</th>'+
+            '<th scope="col" class="bg-primary" id="categoryHeader">Kategória név</th>'+
+            '<th scope="col" class="bg-primary" id="categoryHeader">Többeszám</th>'+
+            '</tr>'+
+            '</thead>';
+        html += '<tbody>';
+        for (var i=0;i<kategoriak.length;i++){
+        html += '<tr class="categoryElement">'+
+                '<td>'+ kategoriak[i].id +'</td>'+
+                '<td>'+kategoriak[i].name+'</td>'+
+                '<td>'+kategoriak[i].plural+'</td>'+
+                '</tr>';
+        }
+        html += '</tbody>' 
+        +'</table>';
+
+
+        html+='<div class="felkuldCategory">'+
+            '<h2 id="kategoriaFejlec">Kategória hozzáadása</h2>'+
+            '<input type="text" class="felkuldKategoriaNev" id="felkuldKategoriaNev" placeholder="Ide írd a kategória nevét a felvételhez...">'+
+            '<input type="text" class="felkuldKategoriaTszamNev" id="felkuldKategoriaTszamNev" placeholder="Ide írd a kategória nevét a felvételhez...">'+
+            '<button type="submit" class="buttonFelkuld" onclick="felkuldCategory()">Küldés</button>'+
+            '</div>';
+
+        html+='<div class="torolCategory">'+
+            '<h2 id="kategoriaFejlec">Kategória törlés</h2>'+
+            '<input type="text" class="torolID" id="torolID" placeholder="Ide írd a kategória nevét a törléshez...">'+
+            '<button type="submit" class="buttonTorol" onclick="torolCategory()">Törlés</button>'+
+            '</div>';
+    return html;
+}
+
+async function felkuldCategory(){
+    var fN = document.querySelector("#felkuldKategoriaNev").value;
+    var fTSzN = document.querySelector("#felkuldKategoriaTszamNev").value;
+    console.log(fN);
+    console.log(fTSzN);
+    await getData('https://api.foksz.dvpc.hu/api/product/category')
+    .then(async response => {
+        var list = await response.json();
+        console.log(list);
+        var fentVan = 0;
+        var str = fN.toLowerCase();
+        for(var i=0;i<list.length;i++){
+            var result = str.localeCompare(list[i].name.toLowerCase());
+            console.log(result);
+            if(result == 0){
+                fentVan++;
+            }
+        }
+        if(fentVan != 0){     
+            alert("Ez a kategóriaa már megtalálható az adatbázisban!");
+        }else{
+            var felkuld = {
+                name: fN,
+                plural: fTSzN
+            }
+            await postData('https://api.foksz.dvpc.hu/api/product/category/', felkuld);
+            alert("A kategória sikeresen bekerült az adatbázisba.");
+            prodCategoryLoad();
+        }
+
+    });
+}
+
+async function torolCategory(){
+    var torolID = document.querySelector('#torolID').value;
+    await deleteData('https://api.foksz.dvpc.hu/api/product/category/'+torolID);
+    alert("Sikeres törlés!");
+    prodCategoryLoad();
+
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------------------
+//TERMÉKKATEGÓRIA - VÉGE ----------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------------------------------------------------------------------------
+//HOME - KEZDET ----------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------------------------
+
+async function homeLoad(){
+    var rendszerAdatok = await getData('https://api.foksz.dvpc.hu/api/System')
+    .then(async response => {
+        return await response.json();
+    });
+    console.log(rendszerAdatok);
+    var html = '';
+    //1. sor 
+    html += '<div class="values">';
+    
+    html += '<div class="val-box">';
+    html += '<i class="material-icons">person</i>';//ICON
+    html += '<div>'
+         + '<h3>' + rendszerAdatok.activeUsersCount + '</h3>'
+         + '<span>Aktív felhasználók</span>'
+         + '</div>';
+    html +='</div>';
+
+    html += '<div class="val-box">';
+    html += '<i class="material-icons">perm_identity</i>';//ICON
+    html += '<div>'
+         + '<h3>' + rendszerAdatok.deniedUsersCount + '</h3>'
+         + '<span>Tiltott felhasználók</span>'
+         + '</div>';
+    html +='</div>';
+
+    html += '<div class="val-box">';
+    html += '<i class="material-icons">import_contacts</i>';//ICON
+    html += '<div>'
+         + '<h3>' + rendszerAdatok.productsCount + '</h3>'
+         + '<span>Összes termék</span>'
+         + '</div>';
+    html +='</div>';
+    html +='</div>';
+
+    //2.sor
+    html += '<div class="values2">';
+        html += '<div class="val-box">';
+        html += '<i class="material-icons">home</i>';//ICON
+        html += '<div>'
+            + '<h3>' + rendszerAdatok.shopsCount + '</h3>'
+            + '<span>Összes bolt</span>'
+            + '</div>';
+        html +='</div>';
+
+        html += '<div class="val-box">';
+        html += '<i class="material-icons">favorite</i>';//ICON
+        html += '<div>'
+            + '<h3>' + rendszerAdatok.mostProductsShop.name + '</h3>'
+            + '<span>Legnépszerűbb bolt</span>'
+            + '</div>';
+        html +='</div>';
+
+        html += '<div class="val-box">';
+        html += '<i class="material-icons">import_contacts</i>';//ICON
+        html += '<div>'
+            + '<h3><button type="button" class="utolsoTermekBtn" onclick="latestProduct(\''+rendszerAdatok.latestProduct.name+'\',\''+rendszerAdatok.latestProduct.shopName+'\')">Kattints</button></h3>'
+            + '<span>Összes termék</span>'
+            + '</div>';
+        html +='</div>';
+    html +='</div>';
+
+    document.getElementById("homePage").innerHTML=html;
+}
+
+function latestProduct(name, shopName){
+    //alert(latestProd);
+    swal("Legnépszerűbb termék", name + "\r\r Bolt: " + shopName);
+}
 
 
 //------------------------------------------------------------------------------------------------------------------------------------------------
-//TERMÉK HOZZÁADÁS - VÉGE ----------------------------------------------------------------------------------------------------------------------------------
+//HOME - VÉGE ----------------------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------------------------------

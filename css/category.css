@@ -1,24 +1,20 @@
-#shopHeader{
+#categoryHeader{
     font-size: 35px;
     color: white;
     font-family: 'Courier New', Courier, monospace;
 }
 
-#shopPage{
+#prodCategoryPage{
     margin-top: 50px;
 }
 
-.shopElement{
+.categoryElement{
     font-size: 20px;
     font-family: 'Times New Roman', Times, serif;
 }
 
-.buttonName{
-    background-color: white;
-    border: none;
-}
 
-#felkuldName{
+#felkuldKategoriaNev{
     width: 100%;
     border: 2px solid #aaa;
     border-radius: 4px;
@@ -29,7 +25,23 @@
     transition: .3s;
 }
 
-#felkuldName:focus{
+#felkuldKategoriaNev:focus{
+    border-color: dodgerblue;
+    box-shadow: 0 0 8px 0 dodgerblue;
+}
+
+#felkuldKategoriaTszamNev{
+    width: 100%;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    margin: 8px 0;
+    outline: none;
+    padding: 8px;
+    box-sizing: border-box;
+    transition: .3s;
+}
+
+#felkuldKategoriaTszamNev:focus{
     border-color: dodgerblue;
     box-shadow: 0 0 8px 0 dodgerblue;
 }
@@ -102,11 +114,7 @@
     transform: scale(1.1);
 }
 
-#boltFejlec{
+#kategoriaFejlec{
     margin-top: 50px;
     text-decoration: underline;
-}
-
-#boltNev{
-    margin-top: 50px;
 }

@@ -1,0 +1,113 @@
+/*1 .sor*/
+.values{
+    padding: 30px 30px 0 30px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.values .val-box{
+    background: lightblue;
+    width: 300px;
+    padding: 16px 20px;
+    border-radius: 50px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.values .val-box i{
+    font-size: 50px;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 50%;
+    text-align: center;
+    color: #fff;
+
+    margin-right: 15px;
+}
+
+.values .val-box:nth-child(1) i{
+    background-color: gray;
+}
+
+.values .val-box:nth-child(2) i{
+    background-color: red;
+}
+
+.values .val-box:nth-child(3) i{
+    background-color:chartreuse;
+}
+
+
+.values .val-box h3{
+    font-size: 50px;
+    font-weight: 600;
+    margin-left: 15px;
+}
+
+.values .val-box span{
+    font-size: 18px;
+    color: darkslategrey;
+}
+/*2. sor*/
+.values2{
+    padding: 30px 30px 0 30px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.values2 .val-box{
+    background: lightblue;
+    width: 300px;
+    padding: 16px 20px;
+    border-radius: 50px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.values2 .val-box i{
+    font-size: 50px;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 50%;
+    text-align: center;
+    color: #fff;
+
+    margin-right: 15px;
+}
+
+.values2 .val-box:nth-child(1) i{
+    background-color:cadetblue;
+}
+
+.values2 .val-box:nth-child(2) i{
+    background-color: yellowgreen;
+}
+
+.values2 .val-box:nth-child(3) i{
+    background-color:chartreuse;
+}
+
+
+.values2 .val-box h3{
+    font-size: 50px;
+    font-weight: 600;
+    margin-left: 15px;
+}
+
+.values2 .val-box span{
+    font-size: 18px;
+    color: darkslategrey;
+}
+
+.utolsoTermekBtn{
+    border: none;
+    background-color: lightblue;
+}

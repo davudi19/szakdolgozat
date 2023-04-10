@@ -18,7 +18,9 @@ const urlRoutes = {
     "/": {
         template: "../spa/templates/home.html",
         title: "Főoldal | " + urlPageTitle,
-        description: "Fő oldal"
+        description: "Fő oldal",
+        script: "homeLoad()"
+
     },
     "/kapcsolatok": {
         template: "../spa/templates/kapcsolatok.html",
@@ -42,10 +44,11 @@ const urlRoutes = {
         title: "Felhasználók tiltása | " + urlPageTitle,
         description: "Felhasználók tiltása oldala"
     },
-    "/torles": {
-        template: "../spa/templates/torles.html",
+    "/kategoria": {
+        template: "../spa/templates/kategoria.html",
         title: "Termékek törlése | " + urlPageTitle,
-        description: "Termékek törlése oldala"
+        description: "Termékek törlése oldala",
+        script: "prodCategoryLoad()"
     },
     "/modositas": {
         template: "../spa/templates/modositas.html",
@@ -72,7 +75,7 @@ const urlLocationHandler = async() => {
         location = "/";
     }
     //const route = urlRoutes[location] || urlRoutes[404];
-    const route = urlRoutes["/hozzaadas"] || urlRoutes[404];
+    const route = urlRoutes["/kategoria"] || urlRoutes[404];
     const html = await fetch(route.template).then((response) => response.text());
     document.getElementById("content").innerHTML = html;
     document.title = route.title;
