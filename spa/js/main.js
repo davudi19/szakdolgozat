@@ -290,48 +290,52 @@ async function shopTermekLista(id){
     console.log(id);
 
     var html = productListHTML(adottShopList);
-    document.getElementById("listProduct").innerHTML = html;
+    document.getElementById("accordion").innerHTML = html;
 }
-
+//----------------------------------------------------
 function productListHTML(adottShopList){
     var html = "";
-    console.log(adottShopList);
-    html += '<div id="boltNev">' +
-    '<h1>'+adottShopList[0].shopName+'-ban/ben lévő termékek: </h1> <br>'+
-    '</div>';
-    for(var i=0;i<adottShopList.length;i++){
-        html += '<div class="card">'+
+    for(var i = 0; i<adottShopList.length;i++){
+        html += '<div class="card" id="card">'+
+        //ez lesz az adatbázisba fent lévő termék
         '<div class="card-header" id="'+adottShopList[i].id+'">'+
         '<h5 class="mb-0">'+
-        '<button class="btn btn-link" data-toggle="collapse" data-target="#collapse'+i+'" aria-expanded="true" aria-controls="collapse'+i+'" onclick="clickedList(\''+adottShopList[i].id+'\',\''+i+'\')">'+
-        adottShopList[i].name+
+        '<button class="btn btn-link" data-toggle="collapse" data-target="#collapse'+i+'" aria-expanded="true" aria-controls="collapse'+i+'" onclick="clickedListItems(\''+adottShopList[i].id+'\',\''+i+'\')">'+
+        (i+1) + '. termék' +
         '</button>'+
         '<p class="btn" id="shop-text" >'+
-        adottShopList[i].shopName+
+        adottShopList[i].name+
         '</p></h5></div>'
         +
         '<div id="collapse'+i+'" class="collapse" aria-labelledby="'+adottShopList[i].id+'" data-parent="#accordion">'+
         '<div class="card" id="first-card">';
-        html += '<div id="clickedListaPlace'+i+'">';
+        html += '<div id="clickedListaPlace'+i+'" class="clickedListaPlace">';
         html += '</div>';
         html += '<div id="gombhely"></div>';
         html += '</div>';
 
+        //módosításra küldött kérés
+            html += '</div>';
+
+            html += '<div class="card" id="second-card">';
+            html += '<div id="ideFogodMasolni2'+i+'">'; 
+            html += '</div>';
+            
+        //vége a select + módosítandó termékek---------------
         html +=
         '</div>'+
         '</div>'+
         '</div>'+
         '<br>';
     }
-
     return html;
 }
 
-async function clickedList(id, i){
+async function clickedListItems(id, i){
     console.log("clickedList id: " + id);
     
     console.log("i: " + i);
-    await getData('https://api.foksz.dvpc.hu/api/admin/product/id/'+id+'')
+    await getData('https://api.foksz.dvpc.hu/api/product/id/'+id+'')
     .then(async response => {
         var list = await response.json();
         console.log(list);
@@ -341,7 +345,6 @@ async function clickedList(id, i){
             '<img src="'+getImage(list.image)+'" class="card-img-top" alt="">'+
             '<div class="card-body">'+
             '<h5 class="card-title">'+list.name+'</h5>'+
-            '<p class="card-text">Ezt a terméket szeretnék módosítani.</p>'+
             '</div>'+
             '<ul class="list-group list-group-flush">'+
             '<li class="list-group-item">Ára: <br>'+list.fullPackPrice+' HUF</li>'+
@@ -349,9 +352,8 @@ async function clickedList(id, i){
             '<li class="list-group-item">Árúház:<br> '+list.shopName+'</li>'+
             '<li class="list-group-item">Csomagolás típusa:<br> '+list.productPackTypeName+'</li>'+
             '<li class="list-group-item">Hány darabra vonatkozik? :<br> '+list.packSize+'</li>'+
-            '<li class="list-group-item">Létrehozó:<br> '+list.createdUserName+'</li>'+
+            '<li class="list-group-item">Létrehozó:<br> '+getUser(list.createdUserName)+'</li>'+
             '<li class="list-group-item">Vonalkód:<br> '+list.barcode+'</li>'+
-            '<li class="list-group-item">Létrehozás dátuma:<br> '+list.createdDate+'</li>'+
             '</ul>';
 
         document.getElementById("clickedListaPlace"+i).innerHTML = bovitett;
@@ -359,6 +361,18 @@ async function clickedList(id, i){
     });
 
 
+}
+
+function getUser(user){
+    var element = '';
+    console.log(user);
+    if(user === undefined){
+        element = "Admin";
+    }else{
+        element = user;
+    }
+
+    return element;
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------------------

@@ -74,8 +74,8 @@ const urlLocationHandler = async() => {
     if(location.length == 0){
         location = "/";
     }
-    //const route = urlRoutes[location] || urlRoutes[404];
-    const route = urlRoutes["/kategoria"] || urlRoutes[404];
+    const route = urlRoutes[location] || urlRoutes[404];
+    //const route = urlRoutes["/"] || urlRoutes[404];
     const html = await fetch(route.template).then((response) => response.text());
     document.getElementById("content").innerHTML = html;
     document.title = route.title;
