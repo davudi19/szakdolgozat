@@ -392,9 +392,8 @@ async function productAddLoad() {
     .then(async response => {
         return await response.json();
     });
-    console.log(categoryList);
     
-    addProdPage += '<select id="categorySelect" onchange="ProdFel()">'+
+    addProdPage += '<select id="categorySelect" class="dropdownProd" onchange="ProdFel()">'+
     '<option value="0">Válasszon...</option>';
     for(var i=0;i<categoryList.length;i++){
         addProdPage += '<option value="'+categoryList[i].id+'">'+ categoryList[i].name +'</option>';
@@ -406,9 +405,7 @@ async function productAddLoad() {
     .then(async response => {
         return await response.json();
     });
-    console.log(packTypeList);
-
-    addProdPage += '<select id="packtypeSelect" onchange="ProdFel()">'+
+    addProdPage += '<select id="packtypeSelect" class="dropdownProd" onchange="ProdFel()">'+
     '<option value="0">Válasszon...</option>';
     for(var i=0;i<packTypeList.length;i++){
         addProdPage += '<option value="'+packTypeList[i].id+'">'+ packTypeList[i].name +'</option>';
@@ -420,22 +417,17 @@ async function productAddLoad() {
     .then(async response => {
         return await response.json();
     });
-    console.log(shopList);
-
-    addProdPage += '<select id="shopSelect" onchange="ProdFel()">'+
+    addProdPage += '<select id="shopSelect" class="dropdownProd" onchange="ProdFel()">'+
     '<option value="0">Válasszon...</option>';
     for(var i=0;i<shopList.length;i++){
         addProdPage += '<option value="'+shopList[i].id+'">'+ shopList[i].name +'</option>';
     }
     addProdPage += '</select> <br>';
-
     addProdPage += 
     '<input type="number" class="addProdText" id="ar" placeholder="Ide írd a termék árát...">'+
     '<input type="number" class="addProdText" id="csomag" placeholder="Ide írd az egy csomag számát...">';
 
-
-
-    addProdPage += '<button type="button" onclick="ProdFel()">Felküld</button>';
+    addProdPage += '<button type="button" class="felkuldProdBtn" onclick="ProdFel()">Felküld</button>';
     document.getElementById("prodAddPage").innerHTML = addProdPage;
 
 
@@ -575,7 +567,6 @@ async function homeLoad(){
     .then(async response => {
         return await response.json();
     });
-    console.log(rendszerAdatok);
     var html = '';
     //1. sor 
     html += '<div class="values">';
@@ -624,10 +615,10 @@ async function homeLoad(){
         html +='</div>';
 
         html += '<div class="val-box">';
-        html += '<i class="material-icons">import_contacts</i>';//ICON
+        html += '<i class="material-icons">border_color</i>';//ICON
         html += '<div>'
             + '<h3><button type="button" class="utolsoTermekBtn" onclick="latestProduct(\''+rendszerAdatok.latestProduct.name+'\',\''+rendszerAdatok.latestProduct.shopName+'\')">Kattints</button></h3>'
-            + '<span>Összes termék</span>'
+            + '<span>Legfrissebb termék</span>'
             + '</div>';
         html +='</div>';
     html +='</div>';
@@ -635,9 +626,8 @@ async function homeLoad(){
     document.getElementById("homePage").innerHTML=html;
 }
 
-function latestProduct(name, shopName){
-    //alert(latestProd);
-    swal("Legnépszerűbb termék", name + "\r\r Bolt: " + shopName);
+function latestProduct(name, shopName){;
+    swal("Legnépszerűbb termék", name + "\n Bolt: " + shopName);
 }
 
 

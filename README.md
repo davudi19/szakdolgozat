@@ -1,4 +1,4 @@
-# szakdolgozat
+# záródolgozat
 
 Észlelt hibák:
 -Mikor az index.html-ről indítom az oldalt, akkor be enged, csak a "HIBA" oldalt látom, mivel nem vagyok bejelentkezve.
@@ -17,3 +17,4 @@ Küldés és Törlés gombok a hop-on: https://www.youtube.com/watch?v=Pcf4F5xa1
 Login css: https://www.youtube.com/watch?v=VP0DS6iXbXY&t=120s
 SPA: https://www.youtube.com/watch?v=JmSb1VFoP7w&t=958s
 Fő oldal rendszer információk: https://www.youtube.com/watch?v=g6HqL18plx4
+Footer: https://www.youtube.com/watch?v=mjvOlyeS2PQ

@@ -22,11 +22,6 @@ const urlRoutes = {
         script: "homeLoad()"
 
     },
-    "/kapcsolatok": {
-        template: "../spa/templates/kapcsolatok.html",
-        title: "Kapcsolatok | " + urlPageTitle,
-        description: "Kapcsolatok oldala"
-    },
     "/hozzaadas": {
         template: "../spa/templates/hozzaadas.html",
         title: "Hozzáadás | " + urlPageTitle,
@@ -39,21 +34,11 @@ const urlRoutes = {
         description: "Felhasználói kérések",
         script: "keresekLoad()"//ezt a main js-ben írtam meg(main.js 1) [url-router.js 73]
     },
-    "/tiltas": {
-        template: "../spa/templates/tiltas.html",
-        title: "Felhasználók tiltása | " + urlPageTitle,
-        description: "Felhasználók tiltása oldala"
-    },
     "/kategoria": {
         template: "../spa/templates/kategoria.html",
         title: "Termékek törlése | " + urlPageTitle,
         description: "Termékek törlése oldala",
         script: "prodCategoryLoad()"
-    },
-    "/modositas": {
-        template: "../spa/templates/modositas.html",
-        title: "Termékek módosítása | " + urlPageTitle,
-        description: "Termékek módosítása oldala"
     },
     "/shop": {
         template: "../spa/templates/shop.html",

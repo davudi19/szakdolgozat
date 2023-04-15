@@ -92,7 +92,7 @@
 }
 
 .values2 .val-box:nth-child(3) i{
-    background-color:chartreuse;
+    background-color: greenyellow;
 }
 
 
@@ -111,3 +111,18 @@
     border: none;
     background-color: lightblue;
 }
+
+/*Header*/
+
+.headerHome{
+    font-size: 35px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    color:  #454545;
+}
+
+#homePage{
+    margin-bottom: 100px;
+}
+

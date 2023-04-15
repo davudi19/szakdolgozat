@@ -28,3 +28,57 @@
     border-color: dodgerblue;
     box-shadow: 0 0 8px 0 dodgerblue;
 }
+
+/*Button*/
+.felkuldProdBtn{
+    font-family: "Roboto", sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    background: #1E90FF;
+    width: 130px;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #fff;
+    border-radius: none;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: box-shadow, transform;
+    transition-property: box-shadow, transform;
+    margin-top: 15px;
+}
+
+.felkuldProdBtn:hover, .felkuldProdBtn:focus, .felkuldProdBtn:active{
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+/*Dropdown*/
+.dropdownProd{
+    width: 100%;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    margin: 8px 0;
+    outline: none;
+    padding: 8px;
+    box-sizing: border-box;
+    transition: .3s;
+}
+
+.dropdownProd:focus{
+    border-color: dodgerblue;
+    box-shadow: 0 0 8px 0 dodgerblue;
+}
+
+/*header*/
+.headerProd{
+    font-size: 35px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    color:  #454545;
+}

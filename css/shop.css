@@ -114,3 +114,12 @@
 #accordion{
     margin-top: 30px;
 }
+
+/*header*/
+.headerShop{
+    font-size: 35px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    color:  #454545;
+}
