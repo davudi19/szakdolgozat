@@ -387,6 +387,7 @@ async function productAddLoad() {
     '<input type="text" class="addProdText" id="termekNev" placeholder="Ide írd a termék nevét...">'+
     '<input type="number" class="addProdText" id="barcode" placeholder="Ide írd a vonalkódot...">';
 
+
     //CATEGORY----------------------------------------------------------------------
     var categoryList = await getData('https://api.foksz.dvpc.hu/api/product/category')
     .then(async response => {
@@ -433,6 +434,8 @@ async function productAddLoad() {
 
 
 }
+
+
 
 function ProdFel(){
     var felkuldTermek = {
@@ -501,7 +504,7 @@ function getCategoryHTML(kategoriak){
         html+='<div class="felkuldCategory">'+
             '<h2 id="kategoriaFejlec">Kategória hozzáadása</h2>'+
             '<input type="text" class="felkuldKategoriaNev" id="felkuldKategoriaNev" placeholder="Ide írd a kategória nevét a felvételhez...">'+
-            '<input type="text" class="felkuldKategoriaTszamNev" id="felkuldKategoriaTszamNev" placeholder="Ide írd a kategória nevét a felvételhez...">'+
+            '<input type="text" class="felkuldKategoriaTszamNev" id="felkuldKategoriaTszamNev" placeholder="Ide írd a kategória nevét többeszámmá alakítva a felvételhez...">'+
             '<button type="submit" class="buttonFelkuld" onclick="felkuldCategory()">Küldés</button>'+
             '</div>';
 

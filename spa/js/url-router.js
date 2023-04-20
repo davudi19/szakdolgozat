@@ -60,7 +60,7 @@ const urlLocationHandler = async() => {
         location = "/";
     }
     const route = urlRoutes[location] || urlRoutes[404];
-    //const route = urlRoutes["/"] || urlRoutes[404];
+    //const route = urlRoutes["/hozzaadas"] || urlRoutes[404];
     const html = await fetch(route.template).then((response) => response.text());
     document.getElementById("content").innerHTML = html;
     document.title = route.title;
